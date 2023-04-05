@@ -1,7 +1,9 @@
 
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import { List, Container, Header, Segment } from 'semantic-ui-react'
 import Axios from 'axios';
+import 'semantic-ui-css/semantic.min.css';
 
 const localaddress = "https://cearto-fictional-space-bassoon-gxrgqxp456fvvpq-4000.preview.app.github.dev"
 function App() {
@@ -48,4 +50,30 @@ function App() {
   );
 }
 
-export default App;
+const DocViewer = ()=>{
+
+  const [docs, setDocs] = useState([{name: "Test", role: "Potato"}])
+  useEffect(()=>{
+    fetch(`${localaddress}/`)
+    .then((resp)=>resp.json())
+    .then((json)=> setDocs(json.documents))
+  }, [])
+
+  return (
+    <Container>
+      <Segment>
+        <Header as="h1"> Hello</Header>
+        <List>
+        {
+            docs.map((el, i)=>
+              <List.Item key={i}>{el.name}-{el.role}</List.Item>
+            )
+        }
+        </List>
+
+      </Segment>
+    </Container>
+  )
+}
+
+export default DocViewer;

@@ -3,6 +3,8 @@
 // export mongopswd=XXXXXXXX
 // RUN
 // npm run devStart
+// FORWARD PORT
+//gh codespace ports visibility 4000:public -c $CODESPACE_NAME
 
 
 const express = require('express');
