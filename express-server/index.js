@@ -1,10 +1,8 @@
 
 // NEED TO EXPORT PSWD IN BASH
 // export mongopswd=XXXXXXXX
-// START SERVER WITH
-// env node index.js
-// FORWARD PORT AS PUBLIC
-// gh codespace ports visibility 4000:public -c $CODESPACE_NAME
+// RUN
+// npm run devStart
 
 
 const express = require('express');
@@ -21,8 +19,16 @@ app.use(cors());
 const pswd = process.env.mongopswd;
 mongoose.connect(`mongodb://hybridatelier:${pswd}@138.68.230.2:27017/reactdata?authSource=admin`, { useNewUrlParser: true});
 var db = mongoose.connection;
+
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    User.find({}, (err, docs)=>{
+        if(err){console.log(err)}
+        else{
+            console.log(docs)
+            res.json({ documents: docs })
+        }
+    })
+    
 })
 
 app.post('/insert', async(req, res) => {

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "devStart": "nodemon app.js"
+    "start": "node index.js",
+    "devStart": "env nodemon index.js && gh codespace ports visibility 4000:public -c $CODESPACE_NAME"
   },
   "author": "",
   "license": "ISC",
