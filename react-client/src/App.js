@@ -18,12 +18,10 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`${localaddress}/insert`)
-    // Axios.post(`${localaddress}/insert`, {
-    //   firstName: name,
-    //   companyRole:role
-    // })
+    
     let data = {prompt, wordcount}
     console.log(data)
+    // Axios.post(`${localaddress}/insert`, data)
   }
 
   return (
