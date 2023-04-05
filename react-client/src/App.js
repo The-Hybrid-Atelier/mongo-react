@@ -21,7 +21,7 @@ function App() {
     
     let data = {prompt, wordcount}
     console.log(data)
-    // Axios.post(`${localaddress}/insert`, data)
+    // Axios.post(`${localaddress}/insert`, {data:data})
   }
 
   return (

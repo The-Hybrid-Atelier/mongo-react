@@ -35,18 +35,15 @@ app.get('/', (req, res) => {
 })
 
 app.post('/insert', async(req, res) => {
-    const FirstName = req.body.firstName
-    const CompanyRole = req.body.companyRole
-    console.log(FirstName, CompanyRole)
+    const data = req.body.data
 
-    const formData  =  new User(
-        {
-            name: FirstName,
-            role: CompanyRole
-        }
-    )
+    // const FirstName = req.body.firstName
+    // const CompanyRole = req.body.companyRole
+    // console.log(FirstName, CompanyRole)
+
+    const formData  =  new SolderStory(data)
+
     try{
-     
         await formData.save();
         res.send("inserted data..")
 
