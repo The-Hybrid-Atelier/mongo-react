@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Axios from 'axios';
 
 
-
+const localaddress = "https://cearto-fictional-space-bassoon-gxrgqxp456fvvpq-4000.preview.app.github.dev"
 function App() {
 
   const [name, setName] = useState("")
@@ -12,14 +12,13 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post('http://localhost:4000/insert', {
+    console.log(`${localaddress}/insert`)
+    Axios.post(`${localaddress}/insert`, {
       firstName: name,
       companyRole:role
-
     })
-
- 
   }
+
   return (
     <div className="App">
       <header className="App-header">      
