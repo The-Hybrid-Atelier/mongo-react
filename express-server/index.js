@@ -25,7 +25,7 @@ mongoose.connect(`mongodb://hybridatelier:${pswd}@138.68.230.2:27017/stories?aut
 var db = mongoose.connection;
 app.get('/', (req, res) => {
     // res.header("Access-Control-Allow-Origin", "https://shreyosiendow-obscure-broccoli-9q95j75r67v3pjvp-3000.preview.app.github.dev/");
-    SolderStory.SolderStory.find({}, (err, docs)=>{
+    SolderStory.SolderPrompt.find({}, (err, docs)=>{
         if(err){console.log(err)}
         else{
             console.log(docs)

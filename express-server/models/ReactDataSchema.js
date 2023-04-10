@@ -63,6 +63,10 @@ const PromptDataSchema = new mongoose.Schema({
             type: String,
             required: false
         },
+        character: {
+            type: String,
+            required: false
+        },
         word_count : {
             type: Number,
             required: false

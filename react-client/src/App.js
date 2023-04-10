@@ -15,15 +15,19 @@ function App() {
   const [audience, setAudience] = useState("Provide target audience")
   const [style, setStyle] = useState("Provide writing style")
   const [word_count, setWordCount] = useState(200)
+  const [character, setCharacter] = useState("John")
   const [prompt, setPrompt] = useState("")
+  const [promptHeader, setPromptHeader] = useState("")
  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`${localaddress}/insert`)
-    
-    let data = {story_label, interpretations, ontological_relations, audience, style, word_count}
+    const result = "This story refers to " + character + "\'s " + "soldering session. Soldering here refers to making solder joints to affix through-hole components on a printed circuit board. This information is gathered from an IMU sensor. The information contains events during the session and how to interpret the sensor data. " + interpretations + ontological_relations + " Given these information, write a story about " + character + "\'s" + " soldering session. Specifically the number of solder joints created, the pace at which the solder joints are created, the order in which things occur. The language should be " + style + " and the target audience is " +  audience + ". The length of the story is " + word_count + "."
+    let data = {story_label, interpretations, ontological_relations, audience, style, character, word_count}
     console.log(data)
     Axios.post(`${localaddress}/insert`, {data:data}, {headers: "Access-Control-Allow-Origin"})
+    setPrompt(result)
+    setPromptHeader(story_label)
   }
 
   return (
@@ -61,6 +65,12 @@ function App() {
           placeholder=""
           onChange={(e) => {setStyle(e.target.value)}}
           />
+        <Label> Character </Label>
+          <input
+          type="text" 
+          placeholder=""
+          onChange={(e) => {setCharacter(e.target.value)}}
+          />
         <Label> Word Count </Label>
           <input
           type="number" 
@@ -71,7 +81,20 @@ function App() {
           <Button type="submit" primary large>Submit</Button>
       </Form>
     </Segment>
+    <Segment>
+      {prompt && (
+      <div>
+        <Header as='h2'>{promptHeader}</Header>
+        <p>{prompt}</p>
+      </div>
+    )}
+  </Segment>
   </Container>
+ 
+
+
+
+  
       
   );
 }
