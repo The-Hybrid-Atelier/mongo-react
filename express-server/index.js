@@ -19,30 +19,27 @@ const SolderStory= require('./models/ReactDataSchema')
 app.use(express.json());
 app.use(cors());
 
+
 const pswd = process.env.mongopswd;
-console.log("ENV", pswd)
 mongoose.connect(`mongodb://hybridatelier:${pswd}@138.68.230.2:27017/stories?authSource=admin`, { useNewUrlParser: true});
 var db = mongoose.connection;
-
 app.get('/', (req, res) => {
-    SolderStory.find({}, (err, docs)=>{
+    // res.header("Access-Control-Allow-Origin", "https://shreyosiendow-obscure-broccoli-9q95j75r67v3pjvp-3000.preview.app.github.dev/");
+    SolderStory.SolderStory.find({}, (err, docs)=>{
         if(err){console.log(err)}
         else{
             console.log(docs)
             res.json({ documents: docs })
         }
     })
+
 })
 
 app.post('/insert', async(req, res) => {
     const data = req.body.data
-
-    // const FirstName = req.body.firstName
-    // const CompanyRole = req.body.companyRole
-    // console.log(FirstName, CompanyRole)
-
-    const formData  =  new SolderStory(data)
-
+    const formData  =  new SolderStory.SolderPrompt(data)
+    console.log(formData)
+    
     try{
         await formData.save();
         res.send("inserted data..")

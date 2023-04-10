@@ -40,11 +40,43 @@ const ReactStoryDataSchema = new mongoose.Schema({
         }
     });
 
+const PromptDataSchema = new mongoose.Schema({
+        story_label : {
+            type: String,
+            required: false
+        }, 
+
+        interpretations : {
+            type: String,
+            required: false
+        },
+        ontological_relations : 
+        {
+            type: String,
+            required: false
+        },
+        style : {
+            type: String,
+            required: false
+        },
+        audience: {
+            type: String,
+            required: false
+        },
+        word_count : {
+            type: Number,
+            required: false
+        }
+    });
 
 
 const User = mongoose.model('User', ReactFormDataSchema);
-
 const SolderStory = mongoose.model('solderingstories', ReactStoryDataSchema);
-
-module.exports = User;
-module.exports = SolderStory;
+const SolderPrompt = mongoose.model('solderingprompts', PromptDataSchema);
+module.exports = {
+    SolderPrompt,
+    SolderStory
+}
+// module.exports = User;
+// module.exports = SolderPrompt;
+// module.exports = SolderStory;
