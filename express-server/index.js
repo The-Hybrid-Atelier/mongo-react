@@ -14,7 +14,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
     organization: "org-3tPFpUkMfDemZcMgQfskdnXC",
-    apiKey: "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",
+    apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -45,41 +45,45 @@ app.get('/', (req, res) => {
 app.post('/insert', async(req, res) => {
     const data = req.body.data
     const result = req.body.formatprompt
-    //try loop
-    const formData  =  new SolderStory.SolderPrompt(data)
-    console.log(formData)
-    
     try{
-        await formData.save();
+        // await formData.save();
         // res.send("inserted data..")
         const response = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: result,
-            max_tokens: 200,
+            max_tokens: 500,
             temperature: 0,
         });
         res.json({text:response.data.choices[0].text})
+        console.log(data)
+        data["response"] = response.data.choices[0].text
+        console.log("data", data)
+        //try loop
+        const formData  =  new SolderStory.SolderPrompt(data)
+        console.log(formData)
+        await formData.save();
 
     } catch(err){
         console.log(err)
     }
+ 
 
 
   });
 //move to /insert in future
-app.post('/openai', async(req, res) => {
-    const data = req.body.data
-    console.log("OPENAI", data)
-    const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: data,
-        max_tokens: 200,
-        temperature: 0,
-    });
+// app.post('/openai', async(req, res) => {
+//     const data = req.body.data
+//     console.log("OPENAI", data)
+//     const response = await openai.createCompletion({
+//         model: "text-davinci-003",
+//         prompt: data,
+//         max_tokens: 200,
+//         temperature: 0,
+//     });
 
-    console.log(response.data.choices[0].text)
+//     console.log(response.data.choices[0].text)
 
-  });
+//   });
 
 
 

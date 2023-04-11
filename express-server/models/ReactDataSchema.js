@@ -70,6 +70,11 @@ const PromptDataSchema = new mongoose.Schema({
         word_count : {
             type: Number,
             required: false
+        },
+        response : 
+        {
+            type: String,
+            required: false
         }
     });
 
