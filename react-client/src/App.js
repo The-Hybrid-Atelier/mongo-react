@@ -18,6 +18,7 @@ function App() {
   const [character, setCharacter] = useState("John")
   const [prompt, setPrompt] = useState("")
   const [promptHeader, setPromptHeader] = useState("")
+  const [reply, setReply] = useState("")
  
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,9 +26,12 @@ function App() {
     const result = "This story refers to " + character + "\'s " + "soldering session. Soldering here refers to making solder joints to affix through-hole components on a printed circuit board. This information is gathered from an IMU sensor. The information contains events during the session and how to interpret the sensor data. " + interpretations + ontological_relations + " Given these information, write a story about " + character + "\'s" + " soldering session. Specifically the number of solder joints created, the pace at which the solder joints are created, the order in which things occur. The language should be " + style + " and the target audience is " +  audience + ". The length of the story is " + word_count + "."
     let data = {story_label, interpretations, ontological_relations, audience, style, character, word_count}
     console.log(data)
-    Axios.post(`${localaddress}/insert`, {data:data}, {headers: "Access-Control-Allow-Origin"})
+    Axios.post(`${localaddress}/insert`, {data:data, formatprompt:result})
+    .then((resp) => setReply(resp.data.text))
+    // Axios.post(`${localaddress}/openai`, {data:result}, {headers: "Access-Control-Allow-Origin"})
     setPrompt(result)
     setPromptHeader(story_label)
+    //look into text areas
   }
 
   return (
@@ -86,6 +90,14 @@ function App() {
       <div>
         <Header as='h2'>{promptHeader}</Header>
         <p>{prompt}</p>
+      </div>
+    )}
+  </Segment>
+  <Segment>
+      {reply && (
+      <div>
+        <Header as='h2'>"OPEN AI RESPONSE"</Header>
+        <p>{reply}</p>
       </div>
     )}
   </Segment>
