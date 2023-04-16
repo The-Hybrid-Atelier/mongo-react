@@ -13,8 +13,8 @@ mongoose.set('strictQuery', false);
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
-    organization: "org-3tPFpUkMfDemZcMgQfskdnXC",
-    apiKey: "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",
+    organization: process.env.org,
+    apiKey: process.env.apikey,
 });
 const openai = new OpenAIApi(configuration);
 
