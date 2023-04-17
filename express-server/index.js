@@ -32,7 +32,8 @@ mongoose.connect(`mongodb://hybridatelier:${pswd}@138.68.230.2:27017/stories?aut
 var db = mongoose.connection;
 app.get('/', (req, res) => {
     // res.header("Access-Control-Allow-Origin", "https://shreyosiendow-obscure-broccoli-9q95j75r67v3pjvp-3000.preview.app.github.dev/");
-    SolderStory.SolderPrompt.find({}, (err, docs)=>{
+    //SolderStory.SolderPrompt.find({}, (err, docs)=>{
+    SolderStory.SolderTutorial.find({}, (err, docs)=>{
         if(err){console.log(err)}
         else{
             console.log(docs)
@@ -45,23 +46,35 @@ app.get('/', (req, res) => {
 app.post('/insert', async(req, res) => {
     const data = req.body.data
     const result = req.body.formatprompt
+    console.log(req.body.formatprompt)
+    console.log(data)
     try{
         // await formData.save();
         // res.send("inserted data..")
-        const response = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: result,
-            max_tokens: 500,
-            temperature: 0,
-        });
-        res.json({text:response.data.choices[0].text})
-        console.log(data)
-        data["response"] = response.data.choices[0].text
-        console.log("data", data)
-        //try loop
-        const formData  =  new SolderStory.SolderPrompt(data)
-        console.log(formData)
-        await formData.save();
+        if(data){
+            const formData  =  new SolderStory.SolderPrompt(data)
+            console.log(formData)
+            await formData.save();
+        }
+        if(result){
+            console.log("I FOUND RESULT WHEN I SHOULDNT")
+        }
+    //     if (req.body.formatprompt){
+    //     const response = await openai.createCompletion({
+    //         model: "text-davinci-003",
+    //         prompt: result,
+    //         max_tokens: 500,
+    //         temperature: 0,
+    //     });
+    //     res.json({text:response.data.choices[0].text})
+    //     formatprompt["response"] = response.data.choices[0].text
+    //     console.log("to log to tutorial", formatprompt)
+    //     //try loop
+    //    // const formData  =  new SolderStory.SolderPrompt(data)
+    //     const formData  =  new SolderStory.SolderTutorial(formatprompt)
+    //     console.log(formData)
+    //     await formData.save();
+    //  }
 
     } catch(err){
         console.log(err)

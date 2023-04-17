@@ -1,14 +1,14 @@
 
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { List, Container, Header, Segment, Button, Form, Item, Label} from 'semantic-ui-react'
+import { List, Input, Container, Header, Segment, Button, Form, Item, Label, TextArea} from 'semantic-ui-react'
 import Axios from 'axios';
 import 'semantic-ui-css/semantic.min.css';
 
 
 const localaddress = "https://shreyosiendow-obscure-broccoli-9q95j75r67v3pjvp-4000.preview.app.github.dev"
 function App() {
-
+  const [isEditing, setIsEditing] = useState(false);
   // const [name, setName] = useState("")
   const [story_label, setStoryLabel] = useState("Provide a descriptive label")
   const [interpretations, setInterpretations] = useState("Provide sensor interpretations")
@@ -21,17 +21,32 @@ function App() {
   const [promptHeader, setPromptHeader] = useState("")
   const [reply, setReply] = useState("")
  
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setPrompt(e.target.value);
+      console.log(`${localaddress}/insert`)
+      // const result = "This story refers to " + character + "\'s " + "soldering session. Soldering here refers to making solder joints to affix through-hole components on a printed circuit board. This information is gathered from an IMU sensor. The information contains events during the session and how to interpret the sensor data. " + interpretations + ontological_relations + " Given these information, write a story about " + character + "\'s" + " soldering session. Specifically the number of solder joints created, the pace at which the solder joints are created, the order in which things occur. The language should be " + style + " and the target audience is " +  audience + ". The length of the story is " + word_count + "."
+      let data = {story_label, prompt}
+      console.log(data)
+      // Axios.post(`${localaddress}/insert`, {data:data, formatprompt:result})
+      // .then((resp) => setReply(resp.data.text))
+      // Axios.post(`${localaddress}/openai`, {data:result}, {headers: "Access-Control-Allow-Origin"})
+      setIsEditing(false);
+    }
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`${localaddress}/insert`)
     const result = "This story refers to " + character + "\'s " + "soldering session. Soldering here refers to making solder joints to affix through-hole components on a printed circuit board. This information is gathered from an IMU sensor. The information contains events during the session and how to interpret the sensor data. " + interpretations + ontological_relations + " Given these information, write a story about " + character + "\'s" + " soldering session. Specifically the number of solder joints created, the pace at which the solder joints are created, the order in which things occur. The language should be " + style + " and the target audience is " +  audience + ". The length of the story is " + word_count + "."
+    setPrompt(result)
+    console.log(prompt)
+    setPromptHeader(story_label)
     let data = {story_label, interpretations, ontological_relations, audience, style, character, word_count}
     console.log(data)
-    Axios.post(`${localaddress}/insert`, {data:data, formatprompt:result})
-    .then((resp) => setReply(resp.data.text))
-    // Axios.post(`${localaddress}/openai`, {data:result}, {headers: "Access-Control-Allow-Origin"})
-    setPrompt(result)
-    setPromptHeader(story_label)
+    Axios.post(`${localaddress}/insert`, {data:data})
     //look into text areas
   }
 
@@ -93,15 +108,33 @@ function App() {
         <p>{prompt}</p>
       </div>
     )}
+
   </Segment>
   <Segment>
+    <p>
+      {isEditing ? (
+          <Input fluid
+            className='Editbox'
+            type = "textarea"
+            defaultValue={prompt}
+            onKeyDown={handleKeyDown}
+            style={{ minHeight: 100 }}
+            rows={10}
+          />
+        ) : (
+          <p>{prompt}</p>
+        )}
+        <Button  primary large onClick={handleEdit}>{isEditing ? 'Cancel' : 'Edit'}</Button>
+      </p>
+  </Segment>
+  {/* <Segment>
       {reply && (
       <div>
         <Header as='h2'>"OPEN AI RESPONSE"</Header>
         <p>{reply}</p>
       </div>
     )}
-  </Segment>
+  </Segment> */}
   </Container>
  
 

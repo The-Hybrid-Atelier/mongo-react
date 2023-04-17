@@ -81,3 +81,7 @@ body{
   background-color: #6EA4B9;
 }
 
+.Input Editbox{
+  overflow: auto;
+  height: 100%;
+}

@@ -70,21 +70,37 @@ const PromptDataSchema = new mongoose.Schema({
         word_count : {
             type: Number,
             required: false
-        },
-        response : 
-        {
-            type: String,
-            required: false
         }
     });
+
+    
+const TutorialDataSchema = new mongoose.Schema({
+    story_label : {
+        type: String,
+        required: false
+    }, 
+    prompt :
+    {
+        type: String,
+        required: false
+    }, 
+
+    response : 
+    {
+        type: String,
+        required: false
+    }
+});
 
 
 const User = mongoose.model('User', ReactFormDataSchema);
 const SolderStory = mongoose.model('solderingstories', ReactStoryDataSchema);
 const SolderPrompt = mongoose.model('solderingprompts', PromptDataSchema);
+const SolderTutorial = mongoose.model('solderingtutorials', TutorialDataSchema);
 module.exports = {
     SolderPrompt,
-    SolderStory
+    SolderStory,
+    SolderTutorial
 }
 // module.exports = User;
 // module.exports = SolderPrompt;
