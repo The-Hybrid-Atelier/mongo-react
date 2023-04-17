@@ -57,7 +57,22 @@ app.post('/insert', async(req, res) => {
             await formData.save();
         }
         if(result){
-            console.log("I FOUND RESULT WHEN I SHOULDNT")
+            console.log("I am generating openai response")
+            const response = await openai.createCompletion({
+                model: "text-davinci-003",
+                prompt: result.updated_prompt,
+                max_tokens: 500,
+                temperature: 0,
+            });
+            res.json({text:response.data.choices[0].text})
+            result["response"] = response.data.choices[0].text
+            result["prompt"] = result.updated_prompt
+            console.log("to log to tutorial", result)
+            //try loop
+        // const formData  =  new SolderStory.SolderPrompt(data)
+            const formData  =  new SolderStory.SolderTutorial(result)
+            console.log(formData)
+            await formData.save();
         }
     //     if (req.body.formatprompt){
     //     const response = await openai.createCompletion({

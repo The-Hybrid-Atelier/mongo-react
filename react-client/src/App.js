@@ -27,13 +27,12 @@ function App() {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      setPrompt(e.target.value);
-      console.log(`${localaddress}/insert`)
-      // const result = "This story refers to " + character + "\'s " + "soldering session. Soldering here refers to making solder joints to affix through-hole components on a printed circuit board. This information is gathered from an IMU sensor. The information contains events during the session and how to interpret the sensor data. " + interpretations + ontological_relations + " Given these information, write a story about " + character + "\'s" + " soldering session. Specifically the number of solder joints created, the pace at which the solder joints are created, the order in which things occur. The language should be " + style + " and the target audience is " +  audience + ". The length of the story is " + word_count + "."
-      let data = {story_label, prompt}
+      setPrompt(e.target.value)
+      const updated_prompt = e.target.value
+      let data = {story_label, updated_prompt}
       console.log(data)
-      // Axios.post(`${localaddress}/insert`, {data:data, formatprompt:result})
-      // .then((resp) => setReply(resp.data.text))
+      Axios.post(`${localaddress}/insert`, {formatprompt:data})
+      .then((resp) => setReply(resp.data.text))
       // Axios.post(`${localaddress}/openai`, {data:result}, {headers: "Access-Control-Allow-Origin"})
       setIsEditing(false);
     }
@@ -42,7 +41,6 @@ function App() {
     e.preventDefault();
     const result = "This story refers to " + character + "\'s " + "soldering session. Soldering here refers to making solder joints to affix through-hole components on a printed circuit board. This information is gathered from an IMU sensor. The information contains events during the session and how to interpret the sensor data. " + interpretations + ontological_relations + " Given these information, write a story about " + character + "\'s" + " soldering session. Specifically the number of solder joints created, the pace at which the solder joints are created, the order in which things occur. The language should be " + style + " and the target audience is " +  audience + ". The length of the story is " + word_count + "."
     setPrompt(result)
-    console.log(prompt)
     setPromptHeader(story_label)
     let data = {story_label, interpretations, ontological_relations, audience, style, character, word_count}
     console.log(data)
@@ -111,7 +109,6 @@ function App() {
 
   </Segment>
   <Segment>
-    <p>
       {isEditing ? (
           <Input fluid
             className='Editbox'
@@ -125,16 +122,15 @@ function App() {
           <p>{prompt}</p>
         )}
         <Button  primary large onClick={handleEdit}>{isEditing ? 'Cancel' : 'Edit'}</Button>
-      </p>
   </Segment>
-  {/* <Segment>
+  <Segment>
       {reply && (
       <div>
         <Header as='h2'>"OPEN AI RESPONSE"</Header>
         <p>{reply}</p>
       </div>
     )}
-  </Segment> */}
+  </Segment>
   </Container>
  
 
